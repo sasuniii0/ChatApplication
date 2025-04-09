@@ -7,10 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class ClientController {
@@ -69,5 +69,29 @@ public class ClientController {
     }
 
     public void UploadBtnOnAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+
+        if (file != null) {
+            new Thread(() -> {
+                try {
+                    Socket socket = new Socket("localhost", 5000);
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                    FileInputStream files = new FileInputStream(file);
+
+                    out.writeUTF(file.getName());
+
+                    out.writeLong(file.length());
+
+                    files.close();
+                    out.close();
+                    socket.close();
+                    System.out.println(" File sent: " + file.getName());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
+
 }
