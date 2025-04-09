@@ -8,12 +8,12 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class ClientInitializer extends Application {
+public class Client2Initializer extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent load = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/Client.fxml")));
+        Parent load = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/Client2.fxml")));
         stage.setScene(new Scene(load));
-        stage.setTitle("Client1");
+        stage.setTitle("Client2");
         stage.show();
     }
 

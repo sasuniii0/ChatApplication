@@ -1,15 +1,16 @@
 package lk.ijse.gdse;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -67,6 +68,22 @@ public class ServerController {
             InputFieldServer.clear();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void UploadBtnOnAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file!=null){
+            new Thread(()->{
+                try{
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    System.out.println(file.getName());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
+
         }
     }
 }

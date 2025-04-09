@@ -13,7 +13,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ClientController {
+public class Client2Controller {
 
     @FXML
     private Button EnterBtnClient;
@@ -28,8 +28,9 @@ public class ClientController {
     private AnchorPane root;
 
     private DataOutputStream out;
+    private DataInputStream in;
 
-    public void initialize() {
+    public void Initialize() {
         new Thread(() -> {
             try {
                 Socket socket = new Socket("localhost", 5000);
@@ -52,22 +53,19 @@ public class ClientController {
             }
         }).start();
     }
-
     @FXML
-    void EnterClientBtnOnAction(javafx.event.ActionEvent event) {
+    void EnterClientBtnOnAction(ActionEvent event) {
         String message = InputFieldClient.getText();
         if (message.isEmpty() || out == null) return;
 
         try {
             out.writeUTF(message);
             out.flush();
-            TxtAreaClient.appendText("Client: " + message + "\n");
+            TxtAreaClient.appendText("Client2: " + message + "\n");
             InputFieldClient.clear();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void UploadBtnOnAction(ActionEvent actionEvent) {
-    }
 }
