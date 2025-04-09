@@ -4,6 +4,8 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse.Server">
@@ -11,5 +13,10 @@
       <TextArea fx:id="TxtAreaServer" layoutX="64.0" layoutY="52.0" prefHeight="200.0" prefWidth="489.0" />
       <TextField fx:id="InputFieldServer" layoutX="64.0" layoutY="278.0" prefHeight="26.0" prefWidth="490.0" promptText="enter text here" />
       <Button fx:id="EnterBtnServer" layoutX="410.0" layoutY="329.0" mnemonicParsing="false" onAction="#EnterServerBtnOnAction" prefHeight="26.0" prefWidth="145.0" text="Enter" />
+      <Text layoutX="227.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Server" textAlignment="CENTER" wrappingWidth="166.13677978515625">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

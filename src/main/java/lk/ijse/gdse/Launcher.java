@@ -16,7 +16,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent load = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/Server.fxml")));
+        Parent load = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/Client.fxml")));
         stage.setScene(new Scene(load));
         stage.show();
     }
