@@ -8,16 +8,16 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class Launcher extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
-
+public class ServerInitializer extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-
-        Parent load = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/Client.fxml")));
+        Parent load = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/Server.fxml")));
         stage.setScene(new Scene(load));
+        stage.setTitle("Server");
         stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
