@@ -80,8 +80,15 @@ public class ClientController {
                     FileInputStream files = new FileInputStream(file);
 
                     out.writeUTF(file.getName());
-
                     out.writeLong(file.length());
+
+
+                    // send file content
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = files.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
 
                     files.close();
                     out.close();
@@ -93,5 +100,39 @@ public class ClientController {
             }).start();
         }
     }
+   /* public void UploadBtnOnAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+
+        if (file != null) {
+            new Thread(() -> {
+                try {
+                    Socket socket = new Socket("localhost", 5000);
+                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                    FileInputStream fis = new FileInputStream(file);
+
+                    dos.writeUTF(file.getName()); // send file name
+                    dos.writeLong(file.length()); // send file size
+
+                    // send file content
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = fis.read(buffer)) != -1) {
+                        dos.write(buffer, 0, bytesRead);
+                    }
+
+                    fis.close();
+                    dos.close();
+                    socket.close();
+
+                    System.out.println("✅ File sent: " + file.getName());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }*/
+
 
 }
