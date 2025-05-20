@@ -3,11 +3,15 @@ package lk.ijse.gdse;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -23,32 +27,22 @@ public class ServerController {
     private TextField InputFieldServer;
 
     @FXML
-    private TextArea TxtAreaServer;
+    TextArea TxtAreaServer ;
 
     @FXML
     private AnchorPane root;
 
-    private DataOutputStream out;
+    private ServerHandler serverHandler;
+
+    private DataOutputStream output;
+
 
     public void initialize() {
         new Thread(() -> {
             try {
-                ServerSocket serverSocket = new ServerSocket(5000);
-                Socket socket = serverSocket.accept();
+                serverHandler = ServerHandler.getInstance();
+                serverHandler.makeSocket();
                 TxtAreaServer.appendText("Client connected.\n");
-
-                DataInputStream in = new DataInputStream(socket.getInputStream());
-                out = new DataOutputStream(socket.getOutputStream());
-
-                while (true) {
-                    String message = in.readUTF();
-                    if (message.equalsIgnoreCase("bye")) break;
-
-                    Platform.runLater(() -> TxtAreaServer.appendText("Client: " + message + "\n"));
-                }
-
-                socket.close();
-                serverSocket.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -59,11 +53,11 @@ public class ServerController {
     @FXML
     void EnterServerBtnOnAction(javafx.event.ActionEvent event) {
         String message = InputFieldServer.getText();
-        if (message.isEmpty() || out == null) return;
+        if (message.isEmpty() || output == null) return;
 
         try {
-            out.writeUTF(message);
-            out.flush();
+            output.writeUTF(message);
+            output.flush();
             TxtAreaServer.appendText("Server: " + message + "\n");
             InputFieldServer.clear();
         } catch (IOException e) {
@@ -85,5 +79,22 @@ public class ServerController {
             }).start();
 
         }
+    }
+
+    public void AddBtnOnAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(root.getScene().getWindow());
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Client2.fxml"));
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e){
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Something went wrong. Can't add client.").show();
+        }
+        stage.setTitle("Add Client");
+        stage.setResizable(false);
+        stage.centerOnScreen();
+        stage.show();
     }
 }
